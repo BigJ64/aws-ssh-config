@@ -20,7 +20,8 @@ BLACKLISTED_REGIONS = [
     'us-gov-west-1'
 ]
 
-# These tag key:value pairs will never have entries generated. Keys are case sensitive while vaules are not.
+# These tag key:value pairs will never have entries generated.
+# Keys are case sensitive, values are not.
 BLACKLISTED_TAGS = [
     'foo:bar'
 ]
@@ -55,22 +56,37 @@ def generate_id(instance, tags_filter, region):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--default-user', help='Default ssh username to use if it can\'t be detected from AMI name')
+    parser.add_argument('--default-user',
+                        help='Default ssh username to use if it can\'t be detected from AMI name')
     parser.add_argument('--keydir', default='~/.ssh/', help='Location of private keys')
-    parser.add_argument('--no-identities-only', action='store_true', help='Do not include IdentitiesOnly=yes in ssh config; may cause connection refused if using ssh-agent')
+    parser.add_argument('--no-identities-only', action='store_true',
+                        help='Do not include IdentitiesOnly=yes in ssh config; may '
+                        'cause connection refused if using ssh-agent')
     parser.add_argument('--no-ssh-key', action='store_true', help='Do not include ssh key')
-    parser.add_argument('--prefix', default='', help='Specify a prefix to prepend to all host names')
-    parser.add_argument('--private', action='store_true', help='Use private IP addresses (public are used by default)')
+    parser.add_argument('--prefix', default='',
+                        help='Specify a prefix to prepend to all host names')
+    parser.add_argument('--private', action='store_true',
+                        help='Use private IP addresses (public are used by default)')
     parser.add_argument('--profile', help='Specify AWS credential profile to use')
-    parser.add_argument('--proxy-host', default='', help='Add ProxyCommand using the host you specify')
-    parser.add_argument('--proxy-line', default='ssh -q -W %h:%p', help='Command used while proxying (Requires --proxy-host to be set)')
-    parser.add_argument('--region', action='store_true', help='Append the region name at the end of the concatenation')
+    parser.add_argument('--proxy-host', default='',
+                        help='Add ProxyCommand using the host you specify')
+    parser.add_argument('--proxy-line', default='ssh -q -W %h:%p',
+                        help='Command used while proxying (Requires --proxy-host to be set)')
+    parser.add_argument('--region', action='store_true',
+                        help='Append the region name at the end of the concatenation')
     parser.add_argument('--ssh-key-name', default='', help='Override the ssh key to use')
-    parser.add_argument('--strict-hostkey-checking', action='store_true', help='Do not include StrictHostKeyChecking=no in ssh config')
-    parser.add_argument('--tags', help='A comma-separated list of tag names to be considered for concatenation. If omitted, all tags will be used')
+    parser.add_argument('--strict-hostkey-checking', action='store_true',
+                        help='Do not include StrictHostKeyChecking=no in ssh config')
+    parser.add_argument('--tags',
+                        help='A comma-separated list of tag names to be considered for '
+                        'concatenation. If omitted, all tags will be used')
     parser.add_argument('--user', help='Override the ssh username for all hosts')
-    parser.add_argument('--white-list-region', default='', help='Which regions must be included. If omitted, all regions are considered', nargs="+")
-    parser.add_argument('--white-list-keyvalue', help='A comma-separated list of tag key:value pairs that must be included. If omitted all tags are considered')
+    parser.add_argument('--white-list-region', default='',
+                        help='Which regions must be included. If omitted, all '
+                        'regions are considered', nargs="+")
+    parser.add_argument('--white-list-keyvalue',
+                        help='A comma-separated list of tag key:value pairs '
+                        'that must be included. If omitted all tags are considered')
 
     args = parser.parse_args()
 
